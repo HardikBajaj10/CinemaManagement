@@ -1,0 +1,39 @@
+class Cinema {
+    private String movieName;
+    private String genre;
+    private double duration; // in hours
+    private double ticketPrice;
+    
+    public Cinema(String movieName, String genre, double duration, double ticketPrice) {
+        this.movieName = movieName;
+        this.genre = genre;
+        this.duration = duration;
+        this.ticketPrice = ticketPrice;
+    }
+    public void displayMovieDetails() {
+        System.out.println("\nMovie Details:");
+        System.out.println("Name: " + movieName);
+        System.out.println("Genre: " + genre);
+        System.out.println("Duration: " + duration + " hours");
+        System.out.println("Ticket Price: $" + ticketPrice);
+    }
+    public void updateTicketPrice(double newPrice) {
+        ticketPrice = newPrice;
+        System.out.println("Ticket price updated successfully!");
+    }
+
+    public double getTicketPrice() {
+        return ticketPrice;
+    }
+}
+public class CinemaManagement{
+    public static void main(String[] args) {
+        Cinema movie1 = new Cinema("Inception", "Science Fiction", 2.8, 12.5);
+        
+        movie1.displayMovieDetails();
+        System.out.println("\nUpdating ticket price...");
+        movie1.updateTicketPrice(15.0);
+
+        movie1.displayMovieDetails();
+    }
+}

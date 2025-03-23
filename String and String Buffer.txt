@@ -1,0 +1,178 @@
+import java.util.Scanner;
+
+interface MovieManager {
+    void addMovie(String name, String time, String format, String theater, double price);
+    void listMovies();
+}
+
+interface TicketManager {
+    void bookTicket(String movieName, int persons);
+}
+
+class CinemaSystem implements MovieManager, TicketManager {
+    private static class Movie {
+        String name, time, format, theater;
+        double price;
+
+        Movie(String name, String time, String format, String theater, double price) {
+            this.name = name;
+            this.time = time;
+            this.format = format;
+            this.theater = theater;
+            this.price = price;
+        }
+    }
+
+    private Movie[] movies = new Movie[10];
+    private int movieCount = 0;
+
+    public void addMovie(String name, String time, String format, String theater, double price) {
+        if (movieCount < movies.length) {
+            movies[movieCount] = new Movie(name, time, format, theater, price);
+            movieCount++;
+            System.out.println("Movie added successfully!");
+        } else {
+            System.out.println("Maximum movie limit reached.");
+        }
+    }
+
+    public void listMovies() {
+        if (movieCount == 0) {
+            System.out.println("No movies available.");
+        } else {
+            System.out.println("Available Movies:");
+            for (int i = 0; i < movieCount; i++) {
+                Movie movie = movies[i];
+                System.out.printf(
+                        "%d. %s | Time: %s | Format: %s | Theater: %s | Price: %.2f\n",
+                        i + 1, movie.name, movie.time, movie.format, movie.theater, movie.price
+                );
+            }
+        }
+    }
+
+    public void bookTicket(String movieName, int persons) {
+        for (int i = 0; i < movieCount; i++) {
+            Movie movie = movies[i];
+            if (movie.name.equalsIgnoreCase(movieName)) {
+                double totalCost = movie.price * persons;
+                System.out.printf("Ticket booked for '%s'. Total cost: %.2f for %d persons.\n",
+                        movie.name, totalCost, persons);
+                return;
+            }
+        }
+        System.out.println("Movie not found. Booking failed.");
+    }
+
+    public void stringOperations() {
+        String movieName = "Avengers";
+        String movieGenre = "Action, Thriller";
+
+        // 1. Concatenation using +
+        String movieInfo = movieName + " (" + movieGenre + ")";
+        System.out.println("Movie Info: " + movieInfo);
+
+        // 2. toUpperCase() and toLowerCase()
+        System.out.println("Movie Name in Upper Case: " + movieName.toUpperCase());
+        System.out.println("Movie Name in Lower Case: " + movieName.toLowerCase());
+
+        // 3. indexOf() and lastIndexOf()
+        System.out.println("Index of 'A' in Movie Name: " + movieName.indexOf('A'));
+        System.out.println("Last Index of 'S' in Movie Name: " + movieName.lastIndexOf('S'));
+
+        // 4. substring()
+        System.out.println("Substring of Movie Name (1, 4): " + movieName.substring(1, 4));
+
+        // 5. replace()
+        System.out.println("Movie Name after replacing 'A' with 'E': " + movieName.replace('A', 'E'));
+
+        // 6. equals() and equalsIgnoreCase()
+        System.out.println("Is Movie Name equal to 'avengers'? " + movieName.equals("avengers"));
+        System.out.println("Is Movie Name equal to 'avengers' (ignoring case)? " + movieName.equalsIgnoreCase("avengers"));
+    }
+
+    public void stringBufferOperations() {
+        StringBuffer movieName = new StringBuffer("Avengers");
+
+        // 1. append()
+        movieName.append(" - The End Game");
+        System.out.println("Movie Name after appending: " + movieName.toString());
+
+        // 2. insert()
+        movieName.insert(0, "Marvel's ");
+        System.out.println("Movie Name after inserting: " + movieName.toString());
+
+        // 3. replace()
+        movieName.replace(0, 7, "DC's ");
+        System.out.println("Movie Name after replacing: " + movieName.toString());
+
+        // 4. reverse()
+        System.out.println("Movie Name in reverse: " + movieName.reverse().toString());
+
+        // 5. delete()
+        movieName.delete(0, 4);
+        System.out.println("Movie Name after deleting: " + movieName.toString());
+    }
+}
+
+public class CinemaManagement6 {
+    public static void main(String[] args) {
+        CinemaSystem cinema = new CinemaSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nWelcome to Cinema Management System");
+            System.out.println("1. Admin Login");System.out.println("2. Customer Login");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if (choice == 1) {
+                System.out.println("\nAdmin Panel");
+                System.out.println("1. Add Movie");
+                System.out.println("2. View Movies");
+                System.out.println("3. String Operations");
+                System.out.println("4. StringBuffer Operations");
+                System.out.println("5. Back to Main Menu");
+                System.out.print("Choose an option: ");
+                int adminChoice = scanner.nextInt();
+                scanner.nextLine();
+
+                if (adminChoice == 1) {
+                    System.out.print("Enter movie name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Movie Time: ");
+                    String time = scanner.nextLine();
+                    System.out.print("Enter format (2D/3D): ");
+                    String format = scanner.nextLine();
+                    System.out.print("Enter Screen: ");
+                    String theater = scanner.nextLine();
+                    System.out.print("Enter ticket price: ");
+                    double price = scanner.nextDouble();
+                    cinema.addMovie(name, time, format, theater, price);
+                } else if (adminChoice == 2) {
+                    cinema.listMovies();
+                } else if (adminChoice == 3) {
+                    cinema.stringOperations();
+                } else if (adminChoice == 4) {
+                    cinema.stringBufferOperations();
+                }
+            } else if (choice == 2) {
+                System.out.println("\nCustomer Panel");
+                cinema.listMovies();
+                System.out.print("Enter the movie name to book: ");
+                String movieName = scanner.nextLine();
+                System.out.print("Enter number of persons: ");
+                int persons = scanner.nextInt();
+                cinema.bookTicket(movieName, persons);
+            } else if (choice == 3) {
+                System.out.println("Thank you for using the Cinema Management System. Goodbye!");
+                break;
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+}

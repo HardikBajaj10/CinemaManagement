@@ -1,0 +1,65 @@
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main extends JFrame {
+    private JTextField customerName;
+    private JComboBox<String> movieList;
+    private JTable seatTable;
+    private JCheckBox vipSeat;
+    private JRadioButton paymentCard, paymentCash;
+    private JButton bookButton;
+
+    public Main() {
+        setTitle("Cinema Management System");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        add(new JLabel("Customer Name:"));
+        customerName = new JTextField(15);
+        add(customerName);
+
+        add(new JLabel("Select Movie:"));
+        String[] movies = {"Avengers", "Inception", "Titanic", "Interstellar"};
+        movieList = new JComboBox<>(movies);
+        add(movieList);
+
+        String[] columns = {"Seat No", "Available"};
+        Object[][] data = {{"A1", true}, {"A2", true}, {"B1", false}, {"B2", true}};
+        seatTable = new JTable(new DefaultTableModel(data, columns));
+        add(new JScrollPane(seatTable));
+
+        vipSeat = new JCheckBox("VIP Seat");
+        add(vipSeat);
+
+        paymentCard = new JRadioButton("Card Payment");
+        paymentCash = new JRadioButton("Cash Payment");
+        ButtonGroup paymentGroup = new ButtonGroup();
+        paymentGroup.add(paymentCard);
+        paymentGroup.add(paymentCash);
+        add(paymentCard);
+        add(paymentCash);
+
+        bookButton = new JButton("Book Ticket");
+        add(bookButton);
+
+        bookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = customerName.getText();
+                String movie = (String) movieList.getSelectedItem();
+                boolean vip = vipSeat.isSelected();
+                String paymentMethod = paymentCard.isSelected() ? "Card" : "Cash";
+                JOptionPane.showMessageDialog(null, "Booking Confirmed for " + name +
+                        "\nMovie: " + movie + "\nVIP: " + vip + "\nPayment: " + paymentMethod);
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        new Main().setVisible(true);
+    }
+}

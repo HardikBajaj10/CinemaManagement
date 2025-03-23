@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+abstract class Cinema {
+    protected String cinemaName;
+    protected String location;
+
+    public Cinema(String cinemaName, String location) {
+        this.cinemaName = cinemaName;
+        this.location = location;
+    }
+    public abstract void displayCinemaDetails();
+}
+final class MovieTheater extends Cinema {
+    private int totalScreens;
+    private String managerName;
+    private String[] screenTypes;
+
+    public MovieTheater(String cinemaName, String location, int totalScreens, String managerName, String[] screenTypes) {
+        super(cinemaName, location);
+        this.totalScreens = totalScreens;
+        this.managerName = managerName;
+        this.screenTypes = screenTypes;
+    }
+
+    public void displayCinemaDetails() {
+        System.out.println("Cinema Name: " + cinemaName);
+        System.out.println("Location: " + location);
+        System.out.println("Total Screens: " + totalScreens);
+        System.out.println("Manager Name: " + managerName);
+        System.out.println("Screen Types: ");
+        for (int i = 0; i < screenTypes.length; i++) {
+            System.out.println("  Screen " + (i + 1) + ": " + screenTypes[i]);
+        }
+    }
+}
+public class CMS {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter Cinema Details:");
+        System.out.print("Cinema Name: ");
+        String cinemaName = scanner.nextLine();
+
+        System.out.print("Location: ");
+        String location = scanner.nextLine();
+
+        System.out.println("\nEnter Theater Details:");
+        System.out.print("Total Screens: ");
+        int totalScreens = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Manager Name: ");
+        String managerName = scanner.nextLine();
+
+        String[] screenTypes = new String[totalScreens];
+        for (int i = 0; i < totalScreens; i++) {
+            System.out.print("Enter type for Screen " + (i + 1) + " (e.g., IMAX, 3D, Standard): ");
+            screenTypes[i] = scanner.nextLine();
+        }
+        MovieTheater theater = new MovieTheater(cinemaName, location, totalScreens, managerName, screenTypes);
+        System.out.println("\nCinema Management System Details:");
+        theater.displayCinemaDetails();
+
+        scanner.close();
+    }
+}
